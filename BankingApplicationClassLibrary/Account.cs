@@ -1,5 +1,9 @@
-﻿namespace BankingApplicationClassLibrary
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace BankingApplicationClassLibrary
 {
+    
+
     public enum AccountTypes
     {
         InstantAccess,
@@ -15,7 +19,7 @@
 
     public class Account
     {
-        private string accountID;
+        public string accountID { get; set; } = Guid.NewGuid().ToString();
         private string sortCode;
         private string accountNumber;
         private string customerID;
@@ -23,11 +27,6 @@
         private DateTime openedDate;
         private string openedByStaffID;
 
-        public string AccountID
-        {
-            set { accountID = value; }
-            get { return accountID; }
-        }
 
         public string Sortcode
         {

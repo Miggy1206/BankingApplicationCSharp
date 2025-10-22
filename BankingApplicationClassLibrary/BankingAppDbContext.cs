@@ -24,5 +24,6 @@ namespace BankingApplicationClassLibrary
             modelBuilder.Entity<MortgageAccount>().ToTable("Mortgages");
             modelBuilder.Entity<CreditAccount>().ToTable("CreditCards");
         }
+
     }
 }
