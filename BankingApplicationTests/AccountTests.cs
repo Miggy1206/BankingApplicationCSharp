@@ -154,7 +154,7 @@ namespace BankingApplicationTests
             var acct = new SavingsAccount();
             acct.balance = 200.0;
 
-            var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(-100));
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(-100));
             Assert.Contains("Withdrawal amount must be positive", ex.Message);
         }
 

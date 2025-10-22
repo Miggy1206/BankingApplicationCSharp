@@ -43,7 +43,16 @@
 
         public void Withdraw(double amount)
         {
-            throw new NotImplementedException();
+            if (amount <= 0)
+            {
+                throw new InvalidAmountException("Withdrawal amount must be positive.");
+            }
+            else if (amount > this.balance)
+            {
+                throw new InsufficentBalanceException("Insufficient funds.");
+            }
+
+            this.balance -= amount;
         }
     }
 
