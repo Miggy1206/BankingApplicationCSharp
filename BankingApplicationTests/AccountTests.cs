@@ -8,7 +8,7 @@ namespace BankingApplicationTests
     {
         //Current Account Tests
 
-        [Trait("Category","CurrentAccount")]
+        [Trait("Category", "CurrentAccount")]
         [Fact]
         public void Deposit_Positive_Amount()
         {
@@ -251,9 +251,89 @@ namespace BankingApplicationTests
             acct.balance = 100.0;
 
             // Assert
-            var ex = Assert.Throws<InsufficentBalanceException>(() => acct.Withdraw(200.0)); 
+            var ex = Assert.Throws<InsufficentBalanceException>(() => acct.Withdraw(200.0));
             Assert.Contains("Insufficient funds", ex.Message);
         }
+
+
+        //Credit card Account Tests
+        [Trait("Category", "CreditCardAccount")]
+        [Fact]
+        public void CreditCard_Deposit_Positive_Amount()
+        {
+            var acct = new CreditAccount();
+            acct.balance = 500.00;
+            acct.Deposit(200.00);
+            Assert.Equal(300.00, acct.balance, 3);
+
+        }
+
+        [Trait("Category", "CreditCardAccount")]
+        [Fact]
+        public void CreditCard_Deposit_Non_Positive_Amount()
+        {
+            var acct = new CreditAccount();
+            acct.balance = 500.00;
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(-100));
+            Assert.Contains("Deposit amount must be positive", ex.Message);
+        }
+
+        [Trait("Category", "CreditCardAccount")]
+        [Fact]
+        public void CreditCard_Deposit_Positive_Amount_Exceeds_Debt()
+        {
+            var acct = new CreditAccount();
+            acct.balance = 500.00;
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(600));
+            Assert.Contains("Deposit can not exceed debt.", ex.Message);
+
+        }
+
+        [Trait("Category", "CreditCardAccount")]
+        [Fact]
+        public void CreditCard_Withdraw_Positive_Amount_Within_Limit()
+        {
+            var acct = new CreditAccount();
+            acct.balance = 500.00;
+            acct.creditLimit = 2000.00;
+            acct.withdrawalFee = 10.00;
+
+            acct.Withdraw(200.00);
+
+            Assert.Equal(720, acct.balance, 3);
+
+        }
+
+        [Trait("Category", "CreditCardAccount")]
+        [Fact]
+        public void CreditCard_Withdraw_Negative_Amount()
+        {
+            var acct = new CreditAccount();
+            acct.balance = 500.00;
+            acct.creditLimit = 2000.00;
+            acct.withdrawalFee = 10.00;
+
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(-100));
+            Assert.Contains("Withdrawal amount must be positive", ex.Message);
+
+        }
+
+        [Trait("Category", "CreditCardAccount")]
+        [Fact]
+        public void CreditCard_Withdraw_Positive_Amount_Exceed_Limits()
+        {
+            var acct = new CreditAccount();
+            acct.balance = 500.00;
+            acct.creditLimit = 2000.00;
+            acct.withdrawalFee = 10.00;
+
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(1600));
+            Assert.Contains("Withdrawal amount + interest can not exceed limit.", ex.Message);
+
+        }
+
+
+
 
     }
 }

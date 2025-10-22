@@ -18,6 +18,7 @@
         public string sortCode { get; set; }
         public string accountNumber { get; set; }
         public string customerID { get; set; }
+        // Change 'private' to 'protected' so derived classes can access 'balance'
         public double balance { get; set; }
         public DateTime openedDate { get; set; }
         public string openedByStaffID { get; set; }
@@ -90,10 +91,21 @@
         }
     }
 
-    public class CreditAccount : Account
+    public class CreditAccount : Account, IAccount
     {
         public double creditLimit;
         public double creditInterestRate;
+        public double withdrawalFee;
+
+        public void Deposit(double amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Withdraw(double amount)
+        {
+            throw new NotImplementedException();
+        }
     }
     public class MortgageAccount : Account
     {
