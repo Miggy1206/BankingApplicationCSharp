@@ -21,17 +21,13 @@ pipeline {
         }
 
         stage('Test') {
-            steps {
-                bat 'dotnet test --configuration Release --logger "trx;LogFileName=test_results.trx"'
-
-		// Convert TRX to JUnit XML for Jenkins reporting
     		bat '''
+    		dotnet test --configuration Release --logger "trx;LogFileName=test_results.trx"
     		dotnet tool install -g trx2junit
     		set PATH=%PATH%;%USERPROFILE%\\.dotnet\\tools
-    		trx2junit **\\test_results.trx
-   		 '''
-            }
-        }
+    		trx2junit "BankingApplicationTests\\TestResults\\test_results.trx"
+    		'''
+	}
     }
 
     post {
