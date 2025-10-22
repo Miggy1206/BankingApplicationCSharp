@@ -51,6 +51,10 @@
             {
                 throw new InsufficentBalanceException("Insufficient funds.");
             }
+            if(accountType == AccountType.FixedTerm)
+            {
+                throw new InvalidAccountTypeWithdrawalException("You can not withdraw of this account.");
+            }
 
             this.balance -= amount;
         }
