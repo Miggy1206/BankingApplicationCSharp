@@ -99,12 +99,30 @@
 
         public void Deposit(double amount)
         {
-            throw new NotImplementedException();
+            if (amount <= 0)
+            {
+                throw new InvalidAmountException("Deposit amount must be positive.");
+            }
+            else if (this.balance - amount < 0)
+            {
+                throw new InvalidAmountException("Deposit can not exceed debt.");
+            }
+            this.balance -= amount;
         }
 
         public void Withdraw(double amount)
         {
-            throw new NotImplementedException();
+            double totalAmount = amount + (amount * withdrawalFee / 100);
+
+            if (amount <= 0)
+            {
+                throw new InvalidAmountException("Withdrawal amount must be positive.");
+            }
+            else if (this.balance + totalAmount > creditLimit)
+            {
+                throw new InvalidAmountException("Withdrawal amount + interest can not exceed limit.");
+            }
+            this.balance += totalAmount;
         }
     }
     public class MortgageAccount : Account

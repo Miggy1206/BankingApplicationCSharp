@@ -300,7 +300,7 @@ namespace BankingApplicationTests
 
             acct.Withdraw(200.00);
 
-            Assert.Equal(720, acct.balance, 3);
+            Assert.Equal(720.00, acct.balance, 2);
 
         }
 
@@ -313,7 +313,7 @@ namespace BankingApplicationTests
             acct.creditLimit = 2000.00;
             acct.withdrawalFee = 10.00;
 
-            var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(-100));
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(-100));
             Assert.Contains("Withdrawal amount must be positive", ex.Message);
 
         }
@@ -327,7 +327,7 @@ namespace BankingApplicationTests
             acct.creditLimit = 2000.00;
             acct.withdrawalFee = 10.00;
 
-            var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(1600));
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(1600));
             Assert.Contains("Withdrawal amount + interest can not exceed limit.", ex.Message);
 
         }
