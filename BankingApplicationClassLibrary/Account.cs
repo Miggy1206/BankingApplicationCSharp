@@ -257,7 +257,16 @@
 
         public void Withdraw(double amount)
         {
-            throw new NotImplementedException();
+            if (amount <= 0)
+            {
+                throw new InvalidAmountException("Withdrawal amount must be positive.");
+            }
+            else if (this.totalMortgageAmount - this.Balance < amount)
+            {
+                throw new InvalidAmountException("Withdrawal can not exceed total mortgage borrowing.");
+            }
+            this.Balance += amount;
+
         }
     }
 }
