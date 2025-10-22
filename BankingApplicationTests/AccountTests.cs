@@ -113,7 +113,7 @@ namespace BankingApplicationTests
         [Fact]
         public void Savings_Deposit_Positive_Amount()
         {
-            var acct = new CurrentAccount();
+            var acct = new SavingsAccount();
             acct.balance = 100.00;
 
             acct.Deposit(50.00);
@@ -125,11 +125,67 @@ namespace BankingApplicationTests
         [Fact]
         public void Savings_Deposit_Non_Positive_Amount()
         {
-            var acct = new CurrentAccount();
+            var acct = new SavingsAccount();
             acct.balance = 0.0;
 
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(-100));
             Assert.Contains("Deposit amount must be positive", ex.Message);
         }
+
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Instant_Savings_Withdraw_Positive_Amount_Within_Limit()
+        {
+            // Arrange
+            var acct = new SavingsAccount();
+            acct.balance = 200.0;
+
+            // Act
+            acct.Withdraw(50.0);
+
+            // Assert
+            Assert.Equal(150.00, acct.balance, 3);
+        }
+
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Instant_Savings_Withdraw_Negative_Amount()
+        {
+            var acct = new SavingsAccount();
+            acct.balance = 200.0;
+
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(-100));
+            Assert.Contains("Withdrawal amount must be positive", ex.Message);
+        }
+
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Instant_Savings_Withdraw_Positive_Amount_Equal_Limit()
+        {
+            // Arrange
+            var acct = new SavingsAccount();
+            acct.balance = 200.0;
+
+            // Act
+            acct.Withdraw(200.0);
+
+            // Assert
+            Assert.Equal(0.00, acct.balance, 3);
+        }
+
+
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Instant_Savings_Withdraw_Positive_Amount_Exceeds_Limit()
+        {
+            // Arrange
+            var acct = new SavingsAccount();
+            acct.balance = 100.0;
+
+            // Assert
+            var ex = Assert.Throws<InsufficentBalanceException>(() => acct.Withdraw(200.0)); // 200 > 130
+            Assert.Contains("Insufficient funds", ex.Message);
+        }
+
     }
 }
