@@ -6,11 +6,6 @@ pipeline {
         githubPush()
     }
 
-    tools {
-        // Ensure dotnet SDK is installed and available in PATH
-        // You can specify a version name configured under "Global Tool Configuration"
-        dotnet 'dotnet6'
-    }
 
     stages {
         stage('Checkout') {
