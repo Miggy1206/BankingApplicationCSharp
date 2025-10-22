@@ -6,6 +6,8 @@ namespace BankingApplicationTests
 {
     public class AccountTests
     {
+        //Current Account Tests
+
         [Trait("Category","CurrentAccount")]
         [Fact]
         public void Deposit_Positive_Amount()
@@ -101,6 +103,33 @@ namespace BankingApplicationTests
             // Act & Assert
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(-100));
             Assert.Contains("Withdrawal amount must be positive", ex.Message);
+        }
+
+
+
+        //Savings Account Tests
+
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Savings_Deposit_Positive_Amount()
+        {
+            var acct = new CurrentAccount();
+            acct.balance = 100.00;
+
+            acct.Deposit(50.00);
+
+            Assert.Equal(150.00, acct.balance, 3);
+        }
+
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Savings_Deposit_Non_Positive_Amount()
+        {
+            var acct = new CurrentAccount();
+            acct.balance = 0.0;
+
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(-100));
+            Assert.Contains("Deposit amount must be positive", ex.Message);
         }
     }
 }

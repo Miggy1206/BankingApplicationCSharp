@@ -34,7 +34,11 @@
 
         public void Deposit(double amount)
         {
-            throw new NotImplementedException();
+            if (amount <= 0)
+            {
+                throw new InvalidAmountException("Deposit amount must be positive.");
+            }
+            this.balance += amount;
         }
 
         public void Withdraw(double amount)
