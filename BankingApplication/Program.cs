@@ -16,8 +16,8 @@ namespace BankingApplication
                 Balance = 250.00,
                 OpenedDate = DateTime.Now,
                 OpenedByStaffID = "STAFF01",
-                overdraftLimit = 500.00,
-                overdraftInterestRate = 12.5
+                OverdraftLimit = 500.00,
+                OverdraftInterestRate = 12.5
             };
 
 
@@ -29,10 +29,10 @@ namespace BankingApplication
                 Balance = 1500.00,
                 OpenedDate = DateTime.Now,
                 OpenedByStaffID = "STAFF02",
-                interestRate = 1.25,
-                interestDate = DateTime.Now,
-                maturityDate = DateTime.Now.AddYears(1),
-                accountType = AccountType.InstantAccess
+                InterestRate = 1.25,
+                InterestDate = DateTime.Now,
+                MaturityDate = DateTime.Now.AddYears(1),
+                AccountType = AccountTypes.InstantAccess
             };
 
 
@@ -44,10 +44,10 @@ namespace BankingApplication
                 Balance = 0.00, 
                 OpenedDate = DateTime.Now,
                 OpenedByStaffID = "STAFF03",
-                accountNumber16 = "1234-5678-9012-3456",
-                creditLimit = 2000.00,
-                creditInterestRate = 18.0,
-                withdrawalFee = 2.5 
+                AccountNumber16 = "1234-5678-9012-3456",
+                CreditLimit = 2000.00,
+                CreditInterestRate = 18.0,
+                WithdrawalFee = 2.5 
             };
 
             var mortgageAccount = new MortgageAccount
@@ -62,14 +62,14 @@ namespace BankingApplication
                 totalMortgageAmount = 250000.00,
                 mortgageInterestRate = 3.75,
                 repaymentDate = DateTime.Now.AddYears(25),
-                mortgageType = AccountType.FixedTerm,
+                mortgageType = AccountTypes.FixedTerm,
                 furtherAdvanceCharge = 150.00,
                 fixedOverpaymentLimit = 1000.00
             };
 
             Console.WriteLine($"Current Account {currentAccount.AccountNumber} balance: {currentAccount.Balance:C}");
-            Console.WriteLine($"Savings Account {savingsAccount.AccountNumber} balance: {savingsAccount.Balance:C} (Interest {savingsAccount.interestRate}%)");
-            Console.WriteLine($"Credit Account {creditAccount.AccountNumber} debt: {creditAccount.Balance:C} (Limit {creditAccount.creditLimit:C})");
+            Console.WriteLine($"Savings Account {savingsAccount.AccountNumber} balance: {savingsAccount.Balance:C} (Interest {savingsAccount.InterestRate}%)");
+            Console.WriteLine($"Credit Account {creditAccount.AccountNumber} debt: {creditAccount.Balance:C} (Limit {creditAccount.CreditLimit:C})");
             Console.WriteLine($"Mortgage Account {mortgageAccount.AccountNumber} outstanding: {mortgageAccount.Balance:C} (Total mortgage {mortgageAccount.totalMortgageAmount:C}, Rate {mortgageAccount.mortgageInterestRate}%)");
         }
     }

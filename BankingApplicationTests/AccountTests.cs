@@ -38,7 +38,7 @@ namespace BankingApplicationTests
             // Arrange
             var acct = new CurrentAccount();
             acct.Balance = 200.0;
-            acct.overdraftLimit = 0.0;
+            acct.OverdraftLimit = 0.0;
 
             // Act
             acct.Withdraw(50.0);
@@ -54,7 +54,7 @@ namespace BankingApplicationTests
             // Arrange
             var acct = new CurrentAccount();
             acct.Balance = 100.00;
-            acct.overdraftLimit = 50.00;
+            acct.OverdraftLimit = 50.00;
 
             // Act
             acct.Withdraw(140.00);
@@ -70,7 +70,7 @@ namespace BankingApplicationTests
             // Arrange
             var acct = new CurrentAccount();
             acct.Balance = 100.00;
-            acct.overdraftLimit = 50.00;
+            acct.OverdraftLimit = 50.00;
 
             // Act
             acct.Withdraw(150.00); // exactly balance + overdraft
@@ -85,7 +85,7 @@ namespace BankingApplicationTests
         {
             var acct = new CurrentAccount();
             acct.Balance = 100.00;
-            acct.overdraftLimit = 30.00;
+            acct.OverdraftLimit = 30.00;
 
             var ex = Assert.Throws<InsufficentBalanceException>(() => acct.Withdraw(200.0)); // 200 > 130
             Assert.Contains("Insufficient funds", ex.Message);
@@ -98,7 +98,7 @@ namespace BankingApplicationTests
             // Arrange
             var acct = new CurrentAccount();
             acct.Balance = 100.00;
-            acct.overdraftLimit = 50.00;
+            acct.OverdraftLimit = 50.00;
 
             // Act & Assert
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(-100));
@@ -114,7 +114,7 @@ namespace BankingApplicationTests
         public void Savings_Deposit_Positive_Amount()
         {
             var acct = new SavingsAccount();
-            acct.accountType = AccountType.InstantAccess;
+            acct.AccountType = AccountTypes.InstantAccess;
             acct.Balance = 100.00;
 
             acct.Deposit(50.00);
@@ -127,7 +127,7 @@ namespace BankingApplicationTests
         public void Savings_Deposit_Non_Positive_Amount()
         {
             var acct = new SavingsAccount();
-            acct.accountType = AccountType.InstantAccess;
+            acct.AccountType = AccountTypes.InstantAccess;
             acct.Balance = 0.0;
 
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(-100));
@@ -143,7 +143,7 @@ namespace BankingApplicationTests
         {
             // Arrange
             var acct = new SavingsAccount();
-            acct.accountType = AccountType.InstantAccess;
+            acct.AccountType = AccountTypes.InstantAccess;
             acct.Balance = 200.0;
 
 
@@ -159,7 +159,7 @@ namespace BankingApplicationTests
         public void Instant_Savings_Withdraw_Negative_Amount()
         {
             var acct = new SavingsAccount();
-            acct.accountType = AccountType.InstantAccess;
+            acct.AccountType = AccountTypes.InstantAccess;
             acct.Balance = 200.0;
 
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(-100));
@@ -172,7 +172,7 @@ namespace BankingApplicationTests
         {
             // Arrange
             var acct = new SavingsAccount();
-            acct.accountType = AccountType.InstantAccess;
+            acct.AccountType = AccountTypes.InstantAccess;
             acct.Balance = 200.0;
 
             // Act
@@ -189,7 +189,7 @@ namespace BankingApplicationTests
         {
             // Arrange
             var acct = new SavingsAccount();
-            acct.accountType = AccountType.InstantAccess;
+            acct.AccountType = AccountTypes.InstantAccess;
             acct.Balance = 100.0;
 
             // Assert
@@ -207,7 +207,7 @@ namespace BankingApplicationTests
         {
             // Arrange
             var acct = new SavingsAccount();
-            acct.accountType = AccountType.FixedTerm;
+            acct.AccountType = AccountTypes.FixedTerm;
             acct.Balance = 200.0;
 
 
@@ -220,7 +220,7 @@ namespace BankingApplicationTests
         public void Fixed_Savings_Withdraw_Negative_Amount()
         {
             var acct = new SavingsAccount();
-            acct.accountType = AccountType.FixedTerm;
+            acct.AccountType = AccountTypes.FixedTerm;
             acct.Balance = 200.0;
 
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(-100));
@@ -233,7 +233,7 @@ namespace BankingApplicationTests
         {
             // Arrange
             var acct = new SavingsAccount();
-            acct.accountType = AccountType.FixedTerm;
+            acct.AccountType = AccountTypes.FixedTerm;
             acct.Balance = 200.0;
 
             var ex = Assert.Throws<InvalidAccountTypeWithdrawalException>(() => acct.Withdraw(200));
@@ -247,7 +247,7 @@ namespace BankingApplicationTests
         {
             // Arrange
             var acct = new SavingsAccount();
-            acct.accountType = AccountType.FixedTerm;
+            acct.AccountType = AccountTypes.FixedTerm;
             acct.Balance = 100.0;
 
             // Assert
@@ -295,8 +295,8 @@ namespace BankingApplicationTests
         {
             var acct = new CreditAccount();
             acct.Balance = 500.00;
-            acct.creditLimit = 2000.00;
-            acct.withdrawalFee = 10.00;
+            acct.CreditLimit = 2000.00;
+            acct.WithdrawalFee = 10.00;
 
             acct.Withdraw(200.00);
 
@@ -310,8 +310,8 @@ namespace BankingApplicationTests
         {
             var acct = new CreditAccount();
             acct.Balance = 500.00;
-            acct.creditLimit = 2000.00;
-            acct.withdrawalFee = 10.00;
+            acct.CreditLimit = 2000.00;
+            acct.WithdrawalFee = 10.00;
 
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(-100));
             Assert.Contains("Withdrawal amount must be positive", ex.Message);
@@ -324,8 +324,8 @@ namespace BankingApplicationTests
         {
             var acct = new CreditAccount();
             acct.Balance = 500.00;
-            acct.creditLimit = 2000.00;
-            acct.withdrawalFee = 10.00;
+            acct.CreditLimit = 2000.00;
+            acct.WithdrawalFee = 10.00;
 
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(1600));
             Assert.Contains("Withdrawal amount + interest can not exceed limit.", ex.Message);
@@ -340,7 +340,7 @@ namespace BankingApplicationTests
         public void Instant_Mortgage_Deposit_Positive_Amount()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountType.InstantAccess;
+            acct.mortgageType = AccountTypes.InstantAccess;
             acct.Balance = 150000.00;
             acct.Deposit(300.00);
             Assert.Equal(149700.00, acct.Balance, 2);
@@ -351,7 +351,7 @@ namespace BankingApplicationTests
         public void Instant_Mortgage_Deposit_Negative_Amount()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountType.InstantAccess;
+            acct.mortgageType = AccountTypes.InstantAccess;
             acct.Balance = 150000.00;
 
 
@@ -364,7 +364,7 @@ namespace BankingApplicationTests
         public void Instant_Mortgage_Deposit_Balance_Equal_Amount()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountType.InstantAccess;
+            acct.mortgageType = AccountTypes.InstantAccess;
             acct.Balance = 150000.00;
             acct.Deposit(150000.00);
             Assert.Equal(0, acct.Balance, 2);
@@ -375,7 +375,7 @@ namespace BankingApplicationTests
         public void Instant_Mortgage_Deposit_Amount_Exceeds_Limit()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountType.InstantAccess;
+            acct.mortgageType = AccountTypes.InstantAccess;
             acct.Balance = 150000.00;
 
 
@@ -390,7 +390,7 @@ namespace BankingApplicationTests
         public void Fixed_Mortgage_Deposit_Positive_Amount_Below_Overpayment_Limit()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountType.FixedTerm;
+            acct.mortgageType = AccountTypes.FixedTerm;
             acct.fixedOverpaymentLimit = 10;
             acct.Balance = 150000.00;
             acct.Deposit(300.00);
@@ -402,7 +402,7 @@ namespace BankingApplicationTests
         public void Fixed_Mortgage_Deposit_Negative_Amount()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountType.FixedTerm;
+            acct.mortgageType = AccountTypes.FixedTerm;
             acct.fixedOverpaymentLimit = 10;
             acct.Balance = 150000.00;
 
@@ -416,7 +416,7 @@ namespace BankingApplicationTests
         public void Fixed_Mortgage_Deposit_Amount_Equal_Overpayment_Limit()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountType.FixedTerm;
+            acct.mortgageType = AccountTypes.FixedTerm;
             acct.fixedOverpaymentLimit = 10;
             acct.Balance = 150000.00;
             acct.Deposit(15000.00);
@@ -428,7 +428,7 @@ namespace BankingApplicationTests
         public void Fixed_Mortgage_Deposit_Amount_Exceeds_Overpayment_Limit()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountType.FixedTerm;
+            acct.mortgageType = AccountTypes.FixedTerm;
             acct.fixedOverpaymentLimit = 10;
             acct.Balance = 150000.00;
 

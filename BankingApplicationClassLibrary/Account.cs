@@ -1,6 +1,6 @@
 ﻿namespace BankingApplicationClassLibrary
 {
-    public enum AccountType
+    public enum AccountTypes
     {
         InstantAccess,
         FixedTerm
@@ -60,10 +60,34 @@
 
     public class SavingsAccount : Account, IAccount
     {
-        public double interestRate;
-        public DateTime interestDate;
-        public DateTime maturityDate;
-        public AccountType accountType;
+        private double interestRate;
+        private DateTime interestDate;
+        private DateTime maturityDate;
+        private AccountTypes accountType;
+
+        public double InterestRate
+        {
+            set { interestRate = value; }
+            get { return interestRate; }
+        }
+
+        public AccountTypes AccountType
+        {
+            set { accountType = value; } 
+            get { return accountType; }
+        }
+
+        public DateTime MaturityDate
+        {
+            set { maturityDate = value; }
+            get { return maturityDate; }
+        }
+
+        public DateTime InterestDate
+        {
+            set { interestDate = value; }
+            get { return interestDate; }
+        }
 
         public void Deposit(double amount)
         {
@@ -84,7 +108,7 @@
             {
                 throw new InsufficentBalanceException("Insufficient funds.");
             }
-            if(accountType == AccountType.FixedTerm)
+            if(accountType == AccountTypes.FixedTerm)
             {
                 throw new InvalidAccountTypeWithdrawalException("You can not withdraw of this account.");
             }
@@ -95,8 +119,20 @@
 
     public class CurrentAccount : Account, IAccount
     {
-        public double overdraftLimit { get; set; }
-        public double overdraftInterestRate { get; set; }
+        private double overdraftLimit;
+        private double overdraftInterestRate;
+
+        public double OverdraftLimit
+        {
+            set { overdraftLimit = value; }
+            get { return overdraftLimit; }
+        }
+
+        public double OverdraftInterestRate
+        {
+            set { overdraftInterestRate = value; }
+            get { return overdraftInterestRate; }
+        }
 
 
         public void Deposit(double amount)
@@ -114,7 +150,7 @@
             {
                 throw new InvalidAmountException("Withdrawal amount must be positive.");
             }
-            else if (amount > this.Balance + this.overdraftLimit)
+            else if (amount > this.Balance + this.OverdraftLimit)
             {
                 throw new InsufficentBalanceException("Insufficient funds including overdraft limit.");
             }
@@ -125,10 +161,34 @@
 
     public class CreditAccount : Account, IAccount
     {
-        public double creditLimit;
+        private double creditLimit;
         public double creditInterestRate;
         public double withdrawalFee;
         public string accountNumber16;
+
+        public double CreditLimit
+        {
+            set { creditLimit = value; }
+            get { return creditLimit; }
+        }
+
+        public double CreditInterestRate
+        {
+            set { creditInterestRate = value; } 
+            get { return creditInterestRate; }
+        }
+
+        public double WithdrawalFee
+        {
+            set { withdrawalFee = value; } 
+            get { return withdrawalFee; }
+        }
+
+        public string AccountNumber16
+        {
+            set { accountNumber16 = value; } 
+            get { return accountNumber16; }
+        }
 
         public void Deposit(double amount)
         {
@@ -145,13 +205,13 @@
 
         public void Withdraw(double amount)
         {
-            double totalAmount = amount + (amount * withdrawalFee / 100);
+            double totalAmount = amount + (amount * this.WithdrawalFee / 100);
 
             if (amount <= 0)
             {
                 throw new InvalidAmountException("Withdrawal amount must be positive.");
             }
-            else if (this.Balance + totalAmount > creditLimit)
+            else if (this.Balance + totalAmount > this.CreditLimit)
             {
                 throw new InvalidAmountException("Withdrawal amount + interest can not exceed limit.");
             }
@@ -163,7 +223,7 @@
         public double totalMortgageAmount;
         public double mortgageInterestRate;
         public DateTime repaymentDate;
-        public AccountType mortgageType;
+        public AccountTypes mortgageType;
         public double furtherAdvanceCharge;
         public double fixedOverpaymentLimit;
         public string accountNumber16;
@@ -178,7 +238,7 @@
             {
                 throw new InvalidAmountException("Deposit can not exceed debt.");
             }
-            if (mortgageType == AccountType.FixedTerm)
+            if (mortgageType == AccountTypes.FixedTerm)
             {
                 if (amount > Balance * fixedOverpaymentLimit / 100)
                 {
