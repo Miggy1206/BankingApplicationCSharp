@@ -1,12 +1,6 @@
 pipeline {
     agent any
 
-    triggers {
-        // Trigger automatically on git push (requires webhook or polling)
-        githubPush()
-    }
-
-
     stages {
         stage('Checkout') {
             steps {
@@ -16,38 +10,32 @@ pipeline {
 
         stage('Restore Dependencies') {
             steps {
-                sh 'dotnet restore'
+                bat 'dotnet restore'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'dotnet build --no-restore'
+                bat 'dotnet build --configuration Release'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'dotnet test --no-build --logger "trx;LogFileName=test_results.trx"'
-            }
-
-            post {
-                always {
-                    // Publish xUnit results (convert .trx to .xml first)
-                    xunit (
-                        tools: [MSTest(deleteOutputFiles: true, pattern: '**/test_results.trx', skipNoTestFiles: false, stopProcessingIfError: false)]
-                    )
-                }
+                bat 'dotnet test --configuration Release --logger "trx;LogFileName=test_results.trx"'
             }
         }
     }
 
     post {
-        success {
-            echo '✅ Build and tests succeeded!'
+        always {
+            junit '**/TestResults/*.xml'
         }
         failure {
             echo '❌ Build or tests failed!'
+        }
+        success {
+            echo '✅ Build and tests passed!'
         }
     }
 }
