@@ -15,6 +15,7 @@
 
     public class Account
     {
+        private string accountID;
         private string sortCode;
         private string accountNumber;
         private string customerID;
@@ -22,6 +23,11 @@
         private DateTime openedDate;
         private string openedByStaffID;
 
+        public string AccountID
+        {
+            set { accountID = value; }
+            get { return accountID; }
+        }
 
         public string Sortcode
         {
@@ -41,12 +47,31 @@
 
         public double Balance
         {
-            set { balance = value; }
+            set {
+                if (value.Equals(null))
+                {
+                    balance = 0;
+                }
+                else
+                {
+                    balance = value;
+                }
+            }
             get { return balance; }
         }
         public DateTime OpenedDate
         {
-            set { openedDate = value; }
+            set
+            {
+                if (openedDate.Equals(null))
+                {
+                    openedDate = DateTime.Now;
+                }
+                else
+                {
+                    openedDate = value;
+                }
+            }
             get { return openedDate; }
         }
         public string OpenedByStaffID

@@ -7,9 +7,10 @@ namespace BankingApplication
     {
         static void Main(string[] args)
         {
-
+            using var dbContext = new BankingAppDbContext();
             var currentAccount = new CurrentAccount
             {
+                AccountID  = "CURR001",
                 Sortcode = "12-34-56",
                 AccountNumber = "00012345",
                 CustomerID = "CUST001",
@@ -23,6 +24,7 @@ namespace BankingApplication
 
             var savingsAccount = new SavingsAccount
             {
+                AccountID  = "SAV001",
                 Sortcode = "65-43-21",
                 AccountNumber = "10054321",
                 CustomerID = "CUST002",
@@ -38,6 +40,7 @@ namespace BankingApplication
 
             var creditAccount = new CreditAccount
             {
+                AccountID  = "CRED001",
                 Sortcode = "11-22-33",
                 AccountNumber = "90077733",
                 CustomerID = "CUST003",
@@ -52,6 +55,7 @@ namespace BankingApplication
 
             var mortgageAccount = new MortgageAccount
             {
+                AccountID  = "MORTG001",
                 Sortcode = "99-88-77",
                 AccountNumber = "MORT123456",
                 CustomerID = "CUST004",
@@ -71,6 +75,31 @@ namespace BankingApplication
             Console.WriteLine($"Savings Account {savingsAccount.AccountNumber} balance: {savingsAccount.Balance:C} (Interest {savingsAccount.InterestRate}%)");
             Console.WriteLine($"Credit Account {creditAccount.AccountNumber} debt: {creditAccount.Balance:C} (Limit {creditAccount.CreditLimit:C})");
             Console.WriteLine($"Mortgage Account {mortgageAccount.AccountNumber} outstanding: {mortgageAccount.Balance:C} (Total mortgage {mortgageAccount.TotalMortgageAmount:C}, Rate {mortgageAccount.MortgageInterestRate}%)");
+
+
+
+            var allAccounts = dbContext.Accounts.ToList();
+
+
+            foreach (var account in allAccounts)
+            {
+                switch (account)
+                {
+                    case CurrentAccount current:
+                        Console.WriteLine($"Current Account: {current.CustomerID}, Overdraft: {current.OverdraftLimit}");
+                        break;
+                    case SavingsAccount savings:
+                        Console.WriteLine($"Savings Account: {savings.CustomerID}, Interest: {savings.InterestRate}");
+                        break;
+                    case MortgageAccount mortgage:
+                        Console.WriteLine($"Mortgage: {mortgage.CustomerID}, Loan: {mortgage.TotalMortgageAmount}");
+                        break;
+                    case CreditAccount credit:
+                        Console.WriteLine($"Credit Card: {credit.CustomerID}, Limit: {credit.CreditLimit}");
+                        break;
+                }
+            }
+
         }
     }
 }
