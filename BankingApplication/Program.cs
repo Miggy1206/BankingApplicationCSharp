@@ -58,19 +58,19 @@ namespace BankingApplication
                 Balance = 250000.00,
                 OpenedDate = DateTime.Now,
                 OpenedByStaffID = "STAFF04",
-                accountNumber16 = "6543-2109-8765-4321",
-                totalMortgageAmount = 250000.00,
-                mortgageInterestRate = 3.75,
-                repaymentDate = DateTime.Now.AddYears(25),
-                mortgageType = AccountTypes.FixedTerm,
-                furtherAdvanceCharge = 150.00,
-                fixedOverpaymentLimit = 1000.00
+                AccountNumber16 = "6543-2109-8765-4321",
+                TotalMortgageAmount = 250000.00,
+                MortgageInterestRate = 3.75,
+                RepaymentDate = DateTime.Now.AddYears(25),
+                MortgageType = AccountTypes.FixedTerm,
+                FurtherAdvanceCharge = 150.00,
+                FixedOverpaymentLimit = 1000.00
             };
 
             Console.WriteLine($"Current Account {currentAccount.AccountNumber} balance: {currentAccount.Balance:C}");
             Console.WriteLine($"Savings Account {savingsAccount.AccountNumber} balance: {savingsAccount.Balance:C} (Interest {savingsAccount.InterestRate}%)");
             Console.WriteLine($"Credit Account {creditAccount.AccountNumber} debt: {creditAccount.Balance:C} (Limit {creditAccount.CreditLimit:C})");
-            Console.WriteLine($"Mortgage Account {mortgageAccount.AccountNumber} outstanding: {mortgageAccount.Balance:C} (Total mortgage {mortgageAccount.totalMortgageAmount:C}, Rate {mortgageAccount.mortgageInterestRate}%)");
+            Console.WriteLine($"Mortgage Account {mortgageAccount.AccountNumber} outstanding: {mortgageAccount.Balance:C} (Total mortgage {mortgageAccount.TotalMortgageAmount:C}, Rate {mortgageAccount.MortgageInterestRate}%)");
         }
     }
 }

@@ -220,13 +220,50 @@
     }
     public class MortgageAccount : Account, IAccount
     {
-        public double totalMortgageAmount;
-        public double mortgageInterestRate;
-        public DateTime repaymentDate;
-        public AccountTypes mortgageType;
-        public double furtherAdvanceCharge;
-        public double fixedOverpaymentLimit;
-        public string accountNumber16;
+        private double totalMortgageAmount;
+        private double mortgageInterestRate;
+        private DateTime repaymentDate;
+        private AccountTypes mortgageType;
+        private double furtherAdvanceCharge;
+        private double fixedOverpaymentLimit;
+        private string accountNumber16;
+
+        public double TotalMortgageAmount
+        {
+            set { totalMortgageAmount = value; }
+            get { return totalMortgageAmount; }
+        }
+        public double MortgageInterestRate
+        {
+            set { mortgageInterestRate = value; }
+            get { return mortgageInterestRate; }
+        }
+        public DateTime RepaymentDate
+        {
+            set { repaymentDate = value; }
+            get { return repaymentDate; }
+        }
+        public AccountTypes MortgageType
+        {
+            set { mortgageType = value; }
+            get { return mortgageType; }
+        }
+        public double FurtherAdvanceCharge
+        {
+            set { furtherAdvanceCharge = value; }
+            get { return furtherAdvanceCharge; }
+        }
+        public double FixedOverpaymentLimit
+        {
+            set { fixedOverpaymentLimit = value; }
+            get { return fixedOverpaymentLimit; }
+        }
+        public string AccountNumber16
+        {
+            set { accountNumber16 = value; }
+            get { return accountNumber16; }
+        }
+
 
         public void Deposit(double amount)
         {

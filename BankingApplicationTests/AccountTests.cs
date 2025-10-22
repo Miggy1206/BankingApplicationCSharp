@@ -340,7 +340,7 @@ namespace BankingApplicationTests
         public void Instant_Mortgage_Deposit_Positive_Amount()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.InstantAccess;
+            acct.MortgageType = AccountTypes.InstantAccess;
             acct.Balance = 150000.00;
             acct.Deposit(300.00);
             Assert.Equal(149700.00, acct.Balance, 2);
@@ -351,7 +351,7 @@ namespace BankingApplicationTests
         public void Instant_Mortgage_Deposit_Negative_Amount()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.InstantAccess;
+            acct.MortgageType = AccountTypes.InstantAccess;
             acct.Balance = 150000.00;
 
 
@@ -364,7 +364,7 @@ namespace BankingApplicationTests
         public void Instant_Mortgage_Deposit_Balance_Equal_Amount()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.InstantAccess;
+            acct.MortgageType = AccountTypes.InstantAccess;
             acct.Balance = 150000.00;
             acct.Deposit(150000.00);
             Assert.Equal(0, acct.Balance, 2);
@@ -375,7 +375,7 @@ namespace BankingApplicationTests
         public void Instant_Mortgage_Deposit_Amount_Exceeds_Limit()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.InstantAccess;
+            acct.MortgageType = AccountTypes.InstantAccess;
             acct.Balance = 150000.00;
 
 
@@ -389,8 +389,8 @@ namespace BankingApplicationTests
         public void Instant_Mortgage_Withdraw_Positive_Amount_Below_Total_Mortgage_Borrowing()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.InstantAccess;
-            acct.totalMortgageAmount = 200000.00;
+            acct.MortgageType = AccountTypes.InstantAccess;
+            acct.TotalMortgageAmount = 200000.00;
             acct.Balance = 150000.00;
             acct.Withdraw(30000.00);
             Assert.Equal(180000, acct.Balance, 2);
@@ -401,8 +401,8 @@ namespace BankingApplicationTests
         public void Instant_Mortgage_Withdraw_Negative_Amount()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.InstantAccess;
-            acct.totalMortgageAmount = 200000.00;
+            acct.MortgageType = AccountTypes.InstantAccess;
+            acct.TotalMortgageAmount = 200000.00;
             acct.Balance = 150000.00;
 
 
@@ -416,8 +416,8 @@ namespace BankingApplicationTests
         public void Instant_Mortgage_Withdraw_Amount_Equal_Total_Mortgage_Borrowing()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.InstantAccess;
-            acct.totalMortgageAmount = 200000.00;
+            acct.MortgageType = AccountTypes.InstantAccess;
+            acct.TotalMortgageAmount = 200000.00;
             acct.Balance = 150000.00;
             acct.Withdraw(50000.00);
             Assert.Equal(200000, acct.Balance, 2);
@@ -428,8 +428,8 @@ namespace BankingApplicationTests
         public void Instant_Mortgage_Withdraw_Amount_Exceeds_Total_Mortgage_Borrowing()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.InstantAccess;
-            acct.totalMortgageAmount = 200000.00;
+            acct.MortgageType = AccountTypes.InstantAccess;
+            acct.TotalMortgageAmount = 200000.00;
             acct.Balance = 150000.00;
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(60000));
             Assert.Contains("Withdrawal can not exceed total mortgage borrowing.", ex.Message);
@@ -444,8 +444,8 @@ namespace BankingApplicationTests
         public void Fixed_Mortgage_Deposit_Positive_Amount_Below_Overpayment_Limit()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.FixedTerm;
-            acct.fixedOverpaymentLimit = 10;
+            acct.MortgageType    = AccountTypes.FixedTerm;
+            acct.FixedOverpaymentLimit = 10;
             acct.Balance = 150000.00;
             acct.Deposit(300.00);
             Assert.Equal(149700, acct.Balance, 2);
@@ -456,8 +456,8 @@ namespace BankingApplicationTests
         public void Fixed_Mortgage_Deposit_Negative_Amount()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.FixedTerm;
-            acct.fixedOverpaymentLimit = 10;
+            acct.MortgageType = AccountTypes.FixedTerm;
+            acct.FixedOverpaymentLimit = 10;
             acct.Balance = 150000.00;
 
 
@@ -470,8 +470,8 @@ namespace BankingApplicationTests
         public void Fixed_Mortgage_Deposit_Amount_Equal_Overpayment_Limit()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.FixedTerm;
-            acct.fixedOverpaymentLimit = 10;
+            acct.MortgageType = AccountTypes.FixedTerm;
+            acct.FixedOverpaymentLimit = 10;
             acct.Balance = 150000.00;
             acct.Deposit(15000.00);
             Assert.Equal(135000, acct.Balance, 2);
@@ -482,8 +482,8 @@ namespace BankingApplicationTests
         public void Fixed_Mortgage_Deposit_Amount_Exceeds_Overpayment_Limit()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.FixedTerm;
-            acct.fixedOverpaymentLimit = 10;
+            acct.MortgageType = AccountTypes.FixedTerm;
+            acct.FixedOverpaymentLimit = 10;
             acct.Balance = 150000.00;
 
 
@@ -500,8 +500,8 @@ namespace BankingApplicationTests
         public void Fixed_Mortgage_Withdraw_Positive_Amount_Below_Total_Mortgage_Borrowing()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.FixedTerm;
-            acct.totalMortgageAmount = 200000.00;
+            acct.MortgageType = AccountTypes.FixedTerm;
+            acct.TotalMortgageAmount = 200000.00;
             acct.Balance = 150000.00;
             acct.Withdraw(30000.00);
             Assert.Equal(180000, acct.Balance, 2);
@@ -512,8 +512,8 @@ namespace BankingApplicationTests
         public void Fixed_Mortgage_Withdraw_Negative_Amount()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.FixedTerm;
-            acct.totalMortgageAmount = 200000.00;
+            acct.MortgageType = AccountTypes.FixedTerm;
+            acct.TotalMortgageAmount = 200000.00;
             acct.Balance = 150000.00;
 
 
@@ -527,8 +527,8 @@ namespace BankingApplicationTests
         public void Fixed_Mortgage_Withdraw_Amount_Equal_Total_Mortgage_Borrowing()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.FixedTerm;
-            acct.totalMortgageAmount = 200000.00;
+            acct.MortgageType = AccountTypes.FixedTerm;
+            acct.TotalMortgageAmount = 200000.00;
             acct.Balance = 150000.00;
             acct.Withdraw(50000.00);
             Assert.Equal(200000, acct.Balance, 2);
@@ -539,8 +539,8 @@ namespace BankingApplicationTests
         public void Fixed_Mortgage_Withdraw_Amount_Exceeds_Total_Mortgage_Borrowing()
         {
             var acct = new MortgageAccount();
-            acct.mortgageType = AccountTypes.FixedTerm;
-            acct.totalMortgageAmount = 200000.00;
+            acct.MortgageType = AccountTypes.FixedTerm;
+            acct.TotalMortgageAmount = 200000.00;
             acct.Balance = 150000.00;
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(60000));
             Assert.Contains("Withdrawal can not exceed total mortgage borrowing.", ex.Message);
