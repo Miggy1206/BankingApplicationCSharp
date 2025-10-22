@@ -21,12 +21,14 @@ pipeline {
         }
 
         stage('Test') {
-    		bat '''
-    		dotnet test --configuration Release --logger "trx;LogFileName=test_results.trx"
-    		dotnet tool install -g trx2junit
-    		set PATH=%PATH%;%USERPROFILE%\\.dotnet\\tools
-    		trx2junit "BankingApplicationTests\\TestResults\\test_results.trx"
-    		'''
+    	   steps {
+                bat '''
+                dotnet test --configuration Release --logger "trx;LogFileName=test_results.trx"
+                dotnet tool install -g trx2junit
+                set PATH=%PATH%;%USERPROFILE%\\.dotnet\\tools
+                trx2junit "BankingApplicationTests\\TestResults\\test_results.trx"
+                '''
+            }
 	}
     }
 
