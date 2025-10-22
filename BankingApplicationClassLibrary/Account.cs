@@ -53,7 +53,7 @@
         {
             if (amount <= 0)
             {
-                throw new ArgumentException("Deposit amount must be positive.");
+                throw new InvalidAmountException("Deposit amount must be positive.");
             }
             this.balance += amount;
         }
@@ -62,11 +62,11 @@
         {
             if (amount <= 0)
             {
-                throw new ArgumentException("Withdrawal amount must be positive.");
+                throw new InvalidAmountException("Withdrawal amount must be positive.");
             }
             else if (amount > this.balance + this.overdraftLimit)
             {
-                throw new InvalidOperationException("Insufficient funds including overdraft limit.");
+                throw new InsufficentBalanceException("Insufficient funds including overdraft limit.");
             }
 
             this.balance -= amount;
