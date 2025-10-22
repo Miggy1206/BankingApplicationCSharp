@@ -33,5 +33,18 @@ namespace BankingApplicationClassLibrary
 
     }
 
+    public class InvalidAccountTypeWithdrawalException : Exception
+    {
+        public InvalidAccountTypeWithdrawalException()
+        {
+        }
+        public InvalidAccountTypeWithdrawalException(string message) : base(message)
+        {
+        }
+        public InvalidAccountTypeWithdrawalException(string message, Exception inner) : base(message, inner)
+        {
+        }
+    }
+
 
 }

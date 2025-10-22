@@ -114,6 +114,7 @@ namespace BankingApplicationTests
         public void Savings_Deposit_Positive_Amount()
         {
             var acct = new SavingsAccount();
+            acct.accountType = AccountType.InstantAccess;
             acct.balance = 100.00;
 
             acct.Deposit(50.00);
@@ -126,19 +127,25 @@ namespace BankingApplicationTests
         public void Savings_Deposit_Non_Positive_Amount()
         {
             var acct = new SavingsAccount();
+            acct.accountType = AccountType.InstantAccess;
             acct.balance = 0.0;
 
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(-100));
             Assert.Contains("Deposit amount must be positive", ex.Message);
         }
 
-        [Trait("Category", "SavingsAccount")]
+
+        //Instant Savings Account Tests
+
+        [Trait("Category", "InstantSavingsAccount")]
         [Fact]
         public void Instant_Savings_Withdraw_Positive_Amount_Within_Limit()
         {
             // Arrange
             var acct = new SavingsAccount();
+            acct.accountType = AccountType.InstantAccess;
             acct.balance = 200.0;
+
 
             // Act
             acct.Withdraw(50.0);
@@ -147,23 +154,25 @@ namespace BankingApplicationTests
             Assert.Equal(150.00, acct.balance, 3);
         }
 
-        [Trait("Category", "SavingsAccount")]
+        [Trait("Category", "InstantSavingsAccount")]
         [Fact]
         public void Instant_Savings_Withdraw_Negative_Amount()
         {
             var acct = new SavingsAccount();
+            acct.accountType = AccountType.InstantAccess;
             acct.balance = 200.0;
 
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(-100));
             Assert.Contains("Withdrawal amount must be positive", ex.Message);
         }
 
-        [Trait("Category", "SavingsAccount")]
+        [Trait("Category", "InstantSavingsAccount")]
         [Fact]
         public void Instant_Savings_Withdraw_Positive_Amount_Equal_Limit()
         {
             // Arrange
             var acct = new SavingsAccount();
+            acct.accountType = AccountType.InstantAccess;
             acct.balance = 200.0;
 
             // Act
@@ -174,16 +183,75 @@ namespace BankingApplicationTests
         }
 
 
-        [Trait("Category", "SavingsAccount")]
+        [Trait("Category", "InstantSavingsAccount")]
         [Fact]
         public void Instant_Savings_Withdraw_Positive_Amount_Exceeds_Limit()
         {
             // Arrange
             var acct = new SavingsAccount();
+            acct.accountType = AccountType.InstantAccess;
             acct.balance = 100.0;
 
             // Assert
             var ex = Assert.Throws<InsufficentBalanceException>(() => acct.Withdraw(200.0)); // 200 > 130
+            Assert.Contains("Insufficient funds", ex.Message);
+        }
+
+
+
+        //Fixed Savings Account Tests
+
+        [Trait("Category", "FixedSavingsAccount")]
+        [Fact]
+        public void Fixed_Savings_Withdraw_Positive_Amount_Within_Limit()
+        {
+            // Arrange
+            var acct = new SavingsAccount();
+            acct.accountType = AccountType.FixedTerm;
+            acct.balance = 200.0;
+
+
+            var ex = Assert.Throws<InvalidAccountTypeWithdrawalException>(() => acct.Withdraw(100));
+            Assert.Contains("You can not withdraw of this account.", ex.Message);
+        }
+
+        [Trait("Category", "FixedSavingsAccount")]
+        [Fact]
+        public void Fixed_Savings_Withdraw_Negative_Amount()
+        {
+            var acct = new SavingsAccount();
+            acct.accountType = AccountType.FixedTerm;
+            acct.balance = 200.0;
+
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(-100));
+            Assert.Contains("Withdrawal amount must be positive", ex.Message);
+        }
+
+        [Trait("Category", "FixedSavingsAccount")]
+        [Fact]
+        public void Fixed_Savings_Withdraw_Positive_Amount_Equal_Limit()
+        {
+            // Arrange
+            var acct = new SavingsAccount();
+            acct.accountType = AccountType.FixedTerm;
+            acct.balance = 200.0;
+
+            var ex = Assert.Throws<InvalidAccountTypeWithdrawalException>(() => acct.Withdraw(200));
+            Assert.Contains("You can not withdraw of this account.", ex.Message);
+        }
+
+
+        [Trait("Category", "FixedSavingsAccount")]
+        [Fact]
+        public void Fixed_Savings_Withdraw_Positive_Amount_Exceeds_Limit()
+        {
+            // Arrange
+            var acct = new SavingsAccount();
+            acct.accountType = AccountType.FixedTerm;
+            acct.balance = 100.0;
+
+            // Assert
+            var ex = Assert.Throws<InsufficentBalanceException>(() => acct.Withdraw(200.0)); 
             Assert.Contains("Insufficient funds", ex.Message);
         }
 

@@ -15,8 +15,8 @@
 
     public class Account
     {
-        public int sortCode { get; set; }
-        public int accountNumber { get; set; }
+        public string sortCode { get; set; }
+        public string accountNumber { get; set; }
         public string customerID { get; set; }
         public double balance { get; set; }
         public DateTime openedDate { get; set; }
