@@ -383,6 +383,60 @@ namespace BankingApplicationTests
             Assert.Contains("Deposit can not exceed debt.", ex.Message);
         }
 
+
+        [Trait("Category", "InstantMortgageAccount")]
+        [Fact]
+        public void Instant_Mortgage_Withdraw_Positive_Amount_Below_Total_Mortgage_Borrowing()
+        {
+            var acct = new MortgageAccount();
+            acct.mortgageType = AccountTypes.InstantAccess;
+            acct.totalMortgageAmount = 200000.00;
+            acct.Balance = 150000.00;
+            acct.Withdraw(30000.00);
+            Assert.Equal(180000, acct.Balance, 2);
+        }
+
+        [Trait("Category", "InstantMortgageAccount")]
+        [Fact]
+        public void Instant_Mortgage_Withdraw_Negative_Amount()
+        {
+            var acct = new MortgageAccount();
+            acct.mortgageType = AccountTypes.InstantAccess;
+            acct.totalMortgageAmount = 200000.00;
+            acct.Balance = 150000.00;
+
+
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(-100));
+            Assert.Contains("Withdrawal amount must be positive", ex.Message);
+
+        }
+
+        [Trait("Category", "InstantMortgageAccount")]
+        [Fact]
+        public void Instant_Mortgage_Withdraw_Amount_Equal_Total_Mortgage_Borrowing()
+        {
+            var acct = new MortgageAccount();
+            acct.mortgageType = AccountTypes.InstantAccess;
+            acct.totalMortgageAmount = 200000.00;
+            acct.Balance = 150000.00;
+            acct.Withdraw(50000.00);
+            Assert.Equal(200000, acct.Balance, 2);
+        }
+
+        [Trait("Category", "InstantMortgageAccount")]
+        [Fact]
+        public void Instant_Mortgage_Withdraw_Amount_Exceeds_Total_Mortgage_Borrowing()
+        {
+            var acct = new MortgageAccount();
+            acct.mortgageType = AccountTypes.InstantAccess;
+            acct.totalMortgageAmount = 200000.00;
+            acct.Balance = 150000.00;
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(60000));
+            Assert.Contains("Withdrawal can not exceed total mortgage borrowing.", ex.Message);
+        }
+
+
+
         //Fixed Mortgage Account Tests
 
         [Trait("Category", "FixedMortgageAccount")]
@@ -436,6 +490,63 @@ namespace BankingApplicationTests
             var ex = Assert.Throws<InvalidAmountException>(() => acct.Deposit(20000));
             Assert.Contains("Deposit can not exceed overpayment limit (10% of balance)", ex.Message);
         }
+
+
+
+
+
+        [Trait("Category", "FixedMortgageAccount")]
+        [Fact]
+        public void Fixed_Mortgage_Withdraw_Positive_Amount_Below_Total_Mortgage_Borrowing()
+        {
+            var acct = new MortgageAccount();
+            acct.mortgageType = AccountTypes.FixedTerm;
+            acct.totalMortgageAmount = 200000.00;
+            acct.Balance = 150000.00;
+            acct.Withdraw(30000.00);
+            Assert.Equal(180000, acct.Balance, 2);
+        }
+
+        [Trait("Category", "FixedMortgageAccount")]
+        [Fact]
+        public void Fixed_Mortgage_Withdraw_Negative_Amount()
+        {
+            var acct = new MortgageAccount();
+            acct.mortgageType = AccountTypes.FixedTerm;
+            acct.totalMortgageAmount = 200000.00;
+            acct.Balance = 150000.00;
+
+
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(-100));
+            Assert.Contains("Withdrawal amount must be positive", ex.Message);
+
+        }
+
+        [Trait("Category", "FixedMortgageAccount")]
+        [Fact]
+        public void Fixed_Mortgage_Withdraw_Amount_Equal_Total_Mortgage_Borrowing()
+        {
+            var acct = new MortgageAccount();
+            acct.mortgageType = AccountTypes.FixedTerm;
+            acct.totalMortgageAmount = 200000.00;
+            acct.Balance = 150000.00;
+            acct.Withdraw(50000.00);
+            Assert.Equal(200000, acct.Balance, 2);
+        }
+
+        [Trait("Category", "FixedMortgageAccount")]
+        [Fact]
+        public void Fixed_Mortgage_Withdraw_Amount_Exceeds_Total_Mortgage_Borrowing()
+        {
+            var acct = new MortgageAccount();
+            acct.mortgageType = AccountTypes.FixedTerm;
+            acct.totalMortgageAmount = 200000.00;
+            acct.Balance = 150000.00;
+            var ex = Assert.Throws<InvalidAmountException>(() => acct.Withdraw(60000));
+            Assert.Contains("Withdrawal can not exceed total mortgage borrowing.", ex.Message);
+        }
+
+
 
     }
 }
