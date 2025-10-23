@@ -5,9 +5,115 @@ namespace BankingApplication
 {
     public class Program
     {
+
+        static string ReadPassword()
+        {
+            string password = string.Empty;
+            ConsoleKeyInfo key;
+
+            do
+            {
+                key = Console.ReadKey(intercept: true); // Intercept to prevent displaying the key
+                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+                {
+                    password += key.KeyChar;
+                    Console.Write("*"); // Mask the input with '*'
+                }
+                else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
+                {
+                    password = password[..^1]; // Remove the last character
+                    Console.Write("\b \b"); // Erase the '*' from the console
+                }
+            } while (key.Key != ConsoleKey.Enter);
+
+            return password;
+        }
+
+
+
+
+
+
+        static void StaffView()
+        {
+            Console.WriteLine("Staff View - Options will be implemented here.");
+        }
+
+
+        static void CustomerView()
+        {
+            Console.WriteLine("Customer View - Options will be implemented here.");
+        }
+
+
+
+
         static void Main(string[] args)
         {
+
             using var dbContext = new BankingAppDbContext();
+
+            Console.WriteLine("BANKING APPLICATION");
+            Console.WriteLine("===================");
+            Console.WriteLine("Loading...");
+            Console.WriteLine("Login");
+            Console.WriteLine("===================");
+            Console.Write("[Email]: ");
+            string email = Console.ReadLine();
+            Console.Write("[Password]: ");
+            string password = ReadPassword();
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+            {
+                Console.WriteLine("Email and Password cannot be empty.");
+                return;
+            }
+
+            AuthService authService = new AuthService(dbContext);
+            User user = authService.Login(email, password);
+            if (user != null)
+            {
+                Console.WriteLine($"\nWelcome, {user.FirstName} {user.LastName}!");
+            }
+            else
+            {
+                Console.WriteLine("\nLogin failed. Please check your credentials.");
+                return;
+            }
+
+            if(user is Staff)
+            {
+                StaffView();
+            }
+            else
+            {
+                CustomerView();
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             var currentAccount = new CurrentAccount
             {
                 AccountID = string.Empty,
@@ -75,16 +181,14 @@ namespace BankingApplication
             savingsAccount.CalculateInterest();
 
 
-            var user = new Staff
-            {
-                UserID = "USER001",
-                Email = "miguelsbarbosa123@gmail.com",
-                FirstName = "Miguel Barbosa",
-                LastName = "Barbosa",
-                DateOfBirth = new DateTime(1990, 5, 15),
-                WithBankSince = DateTime.Now,
-                Password = "SecurePassword123!"
-                };
+            //var userManager = new UserManager(dbContext);
+            //userManager.CreateCustomer(
+            //    firstName: "Miguel",
+            //    lastName: "Barbosa",
+            //    email: "miguelsbarbosa123@gmail.com",
+            //    dateOfBirth: new DateTime(1990, 5, 15),
+            //    plainPassword: "SecurePassword123!"
+            //    );
 
             //dbContext.Users.Add(user);
 
@@ -93,32 +197,30 @@ namespace BankingApplication
             //dbContext.Accounts.Add(creditAccount);
             //dbContext.Accounts.Add(mortgageAccount);
 
-           // dbContext.SaveChanges();
-
-            AuthService authService = new AuthService(dbContext);
-            authService.Login("miguelsbarbosa123@gmail.com", "SecurePassword123!");
-
-            var allAccounts = dbContext.Accounts.ToList();
+            //dbContext.SaveChanges();
 
 
-            foreach (var account in allAccounts)
-            {
-                switch (account)
-                {
-                    case CurrentAccount current:
-                        Console.WriteLine($"Current Account: {current.AccountNumber}, Overdraft: {current.OverdraftLimit}");
-                        break;
-                    case SavingsAccount savings:
-                        Console.WriteLine($"Savings Account: {savings.AccountID}, Interest: {savings.InterestRate}");
-                        break;
-                    case MortgageAccount mortgage:
-                        Console.WriteLine($"Mortgage: {mortgage.AccountID}, Loan: {mortgage.TotalMortgageAmount}");
-                        break;
-                    case CreditAccount credit:
-                        Console.WriteLine($"Credit Card: {credit.AccountID}, Limit: {credit.CreditLimit}");
-                        break;
-                }
-            }
+            //var allAccounts = dbContext.Accounts.ToList();
+
+
+            //foreach (var account in allAccounts)
+            //{
+            //    switch (account)
+            //    {
+            //        case CurrentAccount current:
+            //            Console.WriteLine($"Current Account: {current.AccountNumber}, Overdraft: {current.OverdraftLimit}");
+            //            break;
+            //        case SavingsAccount savings:
+            //            Console.WriteLine($"Savings Account: {savings.AccountID}, Interest: {savings.InterestRate}");
+            //            break;
+            //        case MortgageAccount mortgage:
+            //            Console.WriteLine($"Mortgage: {mortgage.AccountID}, Loan: {mortgage.TotalMortgageAmount}");
+            //            break;
+            //        case CreditAccount credit:
+            //            Console.WriteLine($"Credit Card: {credit.AccountID}, Limit: {credit.CreditLimit}");
+            //            break;
+            //    }
+            //}
 
         }
 
