@@ -6,6 +6,8 @@ namespace BankingApplication
     public class Program
     {
 
+        private BankingAppDbContext dbContext = new BankingAppDbContext();
+
         static string ReadPassword()
         {
             string password = string.Empty;
@@ -40,9 +42,88 @@ namespace BankingApplication
         }
 
 
-        static void CustomerView()
+        static void CustomerView(Customer customer)
         {
+            using var dbContext = new BankingAppDbContext();
+            AccountManager accountManager = new AccountManager(dbContext);
             Console.WriteLine("Customer View - Options will be implemented here.");
+            bool exit = false;
+            while (!exit)
+            {
+                Console.Write("Choose on of the options:\n[1] View Accounts\n[2] Open a New Account\n[3] Close an account\n[4] Logout\n[]");
+                string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        Console.WriteLine("View Accounts");
+                        accountManager.ViewUserAccounts(customer.UserID);
+                        break;
+                    case "2":
+                        bool back = false;
+                        while (!back)
+                        {
+                            Console.WriteLine("Open a New Account");
+                            Console.Write("Choose an account type:\n[1] Current Account\n[2] Savings Account\n[3] Credit Card\n[4] Mortgage\n[5] Back\n[]");
+                            string accountTypeChoice = Console.ReadLine();
+                            switch (accountTypeChoice)
+                            {
+                                case "1":
+                                    Console.WriteLine("Opening Current Account...");
+                                    string sortcode = "80-10-11";
+                                    Console.WriteLine("Your home branch is 80-10-11");
+
+                                    double overdraftAmount = 0;
+                                    double interestRate = 15.0;
+
+      
+                                    Console.WriteLine("How much overdraft would you like to apply for? The current interest rate is 15%. (Default £0)");
+                                    overdraftAmount = Convert.ToDouble(Console.ReadLine());
+
+
+                                    accountManager.CreateCurrentAccount(
+                                        sortcode: sortcode,
+                                        userID: customer.UserID,
+                                        overdraftLimit: overdraftAmount,
+                                        overdraftInterestRate: interestRate
+                                        );
+
+                                    Console.WriteLine("Current Account opened successfully!");
+                                    break;
+                                case "2":
+                                    Console.WriteLine("Opening Savings Account...");
+                                    // Implement Savings Account opening logic here
+                                    break;
+                                case "3":
+                                    Console.WriteLine("Opening Credit Card...");
+                                    // Implement Credit Card opening logic here
+                                    break;
+                                case "4":
+                                    Console.WriteLine("Opening Mortgage...");
+                                    // Implement Mortgage opening logic here
+                                    break;
+                                case "5":
+                                    back = true;
+                                    break;
+                                default:
+                                    Console.WriteLine("Invalid option. Please try again.");
+                                    break;
+                            }
+                        }
+                        break;
+                    case "3":
+                        Console.WriteLine("Close an account");
+                        break;
+                    case "4":
+                        Console.WriteLine("Logging out...");
+                        exit = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+                }
+
+
+            }
         }
 
 
@@ -52,6 +133,16 @@ namespace BankingApplication
         {
 
             using var dbContext = new BankingAppDbContext();
+
+
+            //var userManager = new UserManager(dbContext);
+            //userManager.CreateStaff(
+            //    firstName: "Miguel",
+            //    lastName: "Barbosa",
+            //    email: "staff@gmail.com",
+            //    dateOfBirth: new DateTime(1990, 5, 15),
+            //    plainPassword: "SecurePassword123!"
+            //    );
 
             Console.WriteLine("BANKING APPLICATION");
             Console.WriteLine("===================");
@@ -66,6 +157,7 @@ namespace BankingApplication
             {
                 Console.WriteLine("Email and Password cannot be empty.");
                 return;
+                
             }
 
             AuthService authService = new AuthService(dbContext);
@@ -80,13 +172,17 @@ namespace BankingApplication
                 return;
             }
 
-            if(user is Staff)
+            switch(user)
             {
-                StaffView();
-            }
-            else
-            {
-                CustomerView();
+                case Staff staff:
+                    StaffView();
+                    break;
+                case Customer customer:
+                    CustomerView(customer);
+                    break;
+                default:
+                    Console.WriteLine("Unknown user type.");
+                    break;
             }
 
 
@@ -181,14 +277,7 @@ namespace BankingApplication
             savingsAccount.CalculateInterest();
 
 
-            //var userManager = new UserManager(dbContext);
-            //userManager.CreateCustomer(
-            //    firstName: "Miguel",
-            //    lastName: "Barbosa",
-            //    email: "miguelsbarbosa123@gmail.com",
-            //    dateOfBirth: new DateTime(1990, 5, 15),
-            //    plainPassword: "SecurePassword123!"
-            //    );
+            
 
             //dbContext.Users.Add(user);
 
