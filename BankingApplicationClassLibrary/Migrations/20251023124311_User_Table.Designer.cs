@@ -4,6 +4,7 @@ using BankingApplicationClassLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankingApplicationClassLibrary.Migrations
 {
     [DbContext(typeof(BankingAppDbContext))]
-    partial class BankingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251023124311_User_Table")]
+    partial class User_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,7 +71,7 @@ namespace BankingApplicationClassLibrary.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

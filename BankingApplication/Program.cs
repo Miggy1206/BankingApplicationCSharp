@@ -10,11 +10,12 @@ namespace BankingApplication
             using var dbContext = new BankingAppDbContext();
             var currentAccount = new CurrentAccount
             {
-                AccountID = "",
+                AccountID = string.Empty,
                 Sortcode = "12-34-56",
-                AccountNumber = "",
+                AccountNumber = string.Empty,
                 CustomerID = "CUST001",
                 Balance = 250.00,
+                OpenedDate = DateTime.Now,
                 OpenedByStaffID = "STAFF01",
                 OverdraftLimit = 500.00,
                 OverdraftInterestRate = 12.5
@@ -28,6 +29,7 @@ namespace BankingApplication
                 AccountNumber = "10054321",
                 CustomerID = "CUST002",
                 Balance = 1500.00,
+                OpenedDate = DateTime.Now,
                 OpenedByStaffID = "STAFF02",
                 InterestRate = 1.25,
                 InterestDate = DateTime.Now,
@@ -43,6 +45,7 @@ namespace BankingApplication
                 AccountNumber = "90077733",
                 CustomerID = "CUST003",
                 Balance = 0.00,
+                OpenedDate = DateTime.Now,
                 OpenedByStaffID = "STAFF03",
                 AccountNumber16 = "1234-5678-9012-3456",
                 CreditLimit = 2000.00,
@@ -57,6 +60,7 @@ namespace BankingApplication
                 AccountNumber = "MORT123456",
                 CustomerID = "CUST004",
                 Balance = 250000.00,
+                OpenedDate = DateTime.Now,
                 OpenedByStaffID = "STAFF04",
                 AccountNumber16 = "6543-2109-8765-4321",
                 TotalMortgageAmount = 250000.00,
@@ -71,7 +75,20 @@ namespace BankingApplication
             savingsAccount.CalculateInterest();
 
 
-            dbContext.Accounts.Add(currentAccount);
+            var user = new Staff
+            {
+                UserID = "USER001",
+                Email = "miguelsbarbosa123@gmail.com",
+                FirstName = "Miguel Barbosa",
+                LastName = "Barbosa",
+                DateOfBirth = new DateTime(1990, 5, 15),
+                WithBankSince = DateTime.Now,
+                Password = "SecurePassword123!"
+                };
+
+            dbContext.Users.Add(user);
+
+            //dbContext.Accounts.Add(currentAccount);
             //dbContext.Accounts.Add(savingsAccount);
             //dbContext.Accounts.Add(creditAccount);
             //dbContext.Accounts.Add(mortgageAccount);

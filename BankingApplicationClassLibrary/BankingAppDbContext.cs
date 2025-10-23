@@ -10,6 +10,7 @@ namespace BankingApplicationClassLibrary
     public class BankingAppDbContext : DbContext
     {
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -23,6 +24,11 @@ namespace BankingApplicationClassLibrary
             modelBuilder.Entity<SavingsAccount>().ToTable("SavingsAccounts");
             modelBuilder.Entity<MortgageAccount>().ToTable("Mortgages");
             modelBuilder.Entity<CreditAccount>().ToTable("CreditCards");
+
+
+            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<Customer>().ToTable("Customers");
+            modelBuilder.Entity<Staff>().ToTable("StaffMembers");
         }
 
     }
