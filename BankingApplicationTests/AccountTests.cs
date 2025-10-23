@@ -106,6 +106,42 @@ namespace BankingApplicationTests
         }
 
 
+        [Trait("Category", "CurrentAccount")]
+        [Fact]
+        public void Calculate_Interest_On_Overdraft()
+        {
+  
+            var acct = new CurrentAccount();
+            acct.Balance = -200.00; 
+            acct.OverdraftInterestRate = 12.0; 
+
+            acct.CalculateOverdraftInterest();
+ 
+            Assert.Equal(-224.00, acct.Balance, 2); 
+        }
+
+        [Trait("Category", "CurrentAccount")]
+        [Fact]
+        public void Calculate_Interest_No_Overdraft()
+        {
+            var acct = new CurrentAccount();
+            acct.Balance = 500.00; 
+            acct.OverdraftInterestRate = 12.0; 
+            acct.CalculateOverdraftInterest();
+            Assert.Equal(500.00, acct.Balance, 2);
+        }
+
+        [Trait("Category", "CurrentAccount")]
+        [Fact]
+        public void Calculate_Interest_Zero_Overdraft()
+        {
+            var acct = new CurrentAccount();
+            acct.Balance = 0.00; 
+            acct.OverdraftInterestRate = 12.0; 
+            acct.CalculateOverdraftInterest();
+            Assert.Equal(0.00, acct.Balance, 2);
+        }
+
 
         //Savings Account Tests
 

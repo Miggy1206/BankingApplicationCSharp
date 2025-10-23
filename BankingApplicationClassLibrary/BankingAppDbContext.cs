@@ -27,3 +27,7 @@ namespace BankingApplicationClassLibrary
 
     }
 }
+
+// ENC0023 is a Visual Studio Edit and Continue error that occurs when you add or override abstract/virtual methods during debugging.
+// To resolve this, you must stop debugging and restart the application before making changes to OnModelCreating or OnConfiguring overrides.
+// No code changes are required for the error itself, but you must restart your application after editing these methods.

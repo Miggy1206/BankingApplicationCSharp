@@ -19,7 +19,7 @@ namespace BankingApplicationClassLibrary
 
     public class Account
     {
-        public string accountID { get; set; } = Guid.NewGuid().ToString();
+        private string accountID;
         private string sortCode;
         private string accountNumber;
         private string customerID;
@@ -27,6 +27,11 @@ namespace BankingApplicationClassLibrary
         private DateTime openedDate;
         private string openedByStaffID;
 
+        public string AccountID
+        {
+            set => accountID = string.IsNullOrEmpty(value) ? Guid.NewGuid().ToString() : value;
+            get { return accountID; }
+        }
 
         public string Sortcode
         {
@@ -181,8 +186,18 @@ namespace BankingApplicationClassLibrary
 
             this.Balance -= amount;
         }
-    }
 
+        public void CalculateOverdraftInterest()
+        {
+            if (this.Balance < 0)
+            {
+                double interest = Math.Abs(this.Balance) * (this.OverdraftInterestRate / 100);
+                this.Balance -= interest;
+            }
+        }
+
+
+    }
     public class CreditAccount : Account, IAccount
     {
         private double creditLimit;
