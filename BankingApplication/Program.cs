@@ -12,7 +12,7 @@ namespace BankingApplication
             {
                 AccountID = "",
                 Sortcode = "12-34-56",
-                AccountNumber = "00012345",
+                AccountNumber = "",
                 CustomerID = "CUST001",
                 Balance = 250.00,
                 OpenedByStaffID = "STAFF01",
@@ -64,18 +64,19 @@ namespace BankingApplication
                 RepaymentDate = DateTime.Now.AddYears(25),
                 MortgageType = AccountTypes.FixedTerm,
                 FurtherAdvanceCharge = 150.00,
-                FixedOverpaymentLimit = 10.00
+                FixedOverpaymentLimit = 10.00,
+                MortgageTermInYears = 25
             };
 
             savingsAccount.CalculateInterest();
 
 
-            //dbContext.Accounts.Add(currentAccount);
+            dbContext.Accounts.Add(currentAccount);
             //dbContext.Accounts.Add(savingsAccount);
             //dbContext.Accounts.Add(creditAccount);
             //dbContext.Accounts.Add(mortgageAccount);
 
-            //dbContext.SaveChanges();
+            dbContext.SaveChanges();
 
             var allAccounts = dbContext.Accounts.ToList();
 
@@ -85,7 +86,7 @@ namespace BankingApplication
                 switch (account)
                 {
                     case CurrentAccount current:
-                        Console.WriteLine($"Current Account: {current.AccountID}, Overdraft: {current.OverdraftLimit}");
+                        Console.WriteLine($"Current Account: {current.AccountNumber}, Overdraft: {current.OverdraftLimit}");
                         break;
                     case SavingsAccount savings:
                         Console.WriteLine($"Savings Account: {savings.AccountID}, Interest: {savings.InterestRate}");

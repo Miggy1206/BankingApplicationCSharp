@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Net.NetworkInformation;
 
 namespace BankingApplicationClassLibrary
 {
@@ -29,7 +31,19 @@ namespace BankingApplicationClassLibrary
 
         public string AccountID
         {
-            set => accountID = string.IsNullOrEmpty(value) ? Guid.NewGuid().ToString() : value;
+            set
+            {
+                using var dbContext = new BankingAppDbContext();
+                if (string.IsNullOrEmpty(value))
+                {
+                    do
+                    {
+                        accountID = Guid.NewGuid().ToString();
+                    } while (dbContext.Accounts.Any(a => a.AccountID == accountID));
+                }
+                else
+                    accountID = value;
+            }
             get { return accountID; }
         }
 
@@ -40,7 +54,18 @@ namespace BankingApplicationClassLibrary
         }
         public string AccountNumber
         {
-            set { accountNumber = value; }
+            set {
+                using var dbContext = new BankingAppDbContext();
+                Random random = new Random();
+                if (string.IsNullOrEmpty(value)){
+                    do
+                    {
+                        accountNumber = random.Next(0, 99999999).ToString("D8");
+                    } while (dbContext.Accounts.Any(a => a.AccountNumber == accountNumber));
+                }
+                else
+                    accountNumber = value; 
+            }
             get { return accountNumber; }
         }
         public string CustomerID
@@ -281,6 +306,7 @@ namespace BankingApplicationClassLibrary
         private double furtherAdvanceCharge;
         private double fixedOverpaymentLimit;
         private string accountNumber16;
+        private int mortgageTermInYears;
 
         public double TotalMortgageAmount
         {
@@ -316,6 +342,12 @@ namespace BankingApplicationClassLibrary
         {
             set { accountNumber16 = value; }
             get { return accountNumber16; }
+        }
+
+        public int MortgageTermInYears
+        {
+            set { mortgageTermInYears = value; }
+            get { return mortgageTermInYears; }
         }
 
 
