@@ -67,17 +67,15 @@ namespace BankingApplication
                 FixedOverpaymentLimit = 10.00
             };
 
-            Console.WriteLine($"Current Account {currentAccount.AccountID} balance: {currentAccount.OpenedDate}");
-            Console.WriteLine($"Savings Account {savingsAccount.AccountNumber} balance: {savingsAccount.Balance:C} (Interest {savingsAccount.InterestRate}%)");
-            Console.WriteLine($"Credit Account {creditAccount.AccountNumber} debt: {creditAccount.Balance:C} (Limit {creditAccount.CreditLimit:C})");
-            Console.WriteLine($"Mortgage Account {mortgageAccount.AccountNumber} outstanding: {mortgageAccount.Balance:C} (Total mortgage {mortgageAccount.TotalMortgageAmount:C}, Rate {mortgageAccount.MortgageInterestRate}%)");
+            savingsAccount.CalculateInterest();
 
-            dbContext.Accounts.Add(currentAccount);
-            dbContext.Accounts.Add(savingsAccount);
-            dbContext.Accounts.Add(creditAccount);
-            dbContext.Accounts.Add(mortgageAccount);
 
-            dbContext.SaveChanges();
+            //dbContext.Accounts.Add(currentAccount);
+            //dbContext.Accounts.Add(savingsAccount);
+            //dbContext.Accounts.Add(creditAccount);
+            //dbContext.Accounts.Add(mortgageAccount);
+
+            //dbContext.SaveChanges();
 
             var allAccounts = dbContext.Accounts.ToList();
 

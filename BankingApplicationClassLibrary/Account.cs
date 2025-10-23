@@ -144,6 +144,21 @@ namespace BankingApplicationClassLibrary
 
             this.Balance -= amount;
         }
+        public void CalculateInterest()
+        {
+            DateTime currentDate = DateTime.Now;
+            int yearsDifference = currentDate.Year - interestDate.Year;
+            if (currentDate < interestDate.AddYears(yearsDifference))
+                yearsDifference--;
+
+            Console.WriteLine("Years Difference: " + yearsDifference);
+            if (yearsDifference >= 1 && this.Balance > 0)
+            {
+                double interest = this.Balance * (Math.Pow(1 + (interestRate / 100), yearsDifference) - 1);
+                this.Balance += interest;
+                this.InterestDate = this.InterestDate.AddYears(yearsDifference);
+            }
+        }
     }
 
     public class CurrentAccount : Account, IAccount

@@ -170,6 +170,86 @@ namespace BankingApplicationTests
             Assert.Contains("Deposit amount must be positive", ex.Message);
         }
 
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Savings_Calculate_Interest()
+        {
+            var acct = new SavingsAccount();
+            acct.AccountType = AccountTypes.InstantAccess;
+            acct.InterestDate = DateTime.Now.AddMonths(-12);
+            acct.Balance = 1000.00;
+            acct.InterestRate = 1.2; // 1.2% annual interest
+            acct.CalculateInterest();
+            // Monthly interest: 1000 * (1.2 / 100) / 12 = 1.00
+            Assert.Equal(1012.00, acct.Balance, 2);
+        }
+
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Savings_Calculate_Interest_No_Time_Elapsed()
+        {
+            var acct = new SavingsAccount();
+            acct.AccountType = AccountTypes.InstantAccess;
+            acct.InterestDate = DateTime.Now;
+            acct.Balance = 1000.00;
+            acct.InterestRate = 1.2;
+            acct.CalculateInterest();
+            Assert.Equal(1000.00, acct.Balance, 2);
+        }
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Savings_Calculate_Interest_Zero_Balance()
+        {
+            var acct = new SavingsAccount();
+            acct.AccountType = AccountTypes.InstantAccess;
+            acct.InterestDate = DateTime.Now.AddMonths(-12);
+            acct.Balance = 0.00;
+            acct.InterestRate = 1.2; // 1.2% annual interest
+            acct.CalculateInterest();
+            // Zero balance, should remain zero
+            Assert.Equal(0.00, acct.Balance, 2);
+        }
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Savings_Calculate_Interest_Negative_Balance()
+        {
+            var acct = new SavingsAccount();
+            acct.AccountType = AccountTypes.InstantAccess;
+            acct.InterestDate = DateTime.Now.AddMonths(-12);
+            acct.Balance = -500.00;
+            acct.InterestRate = 1.2; // 1.2% annual interest
+            acct.CalculateInterest();
+            // Negative balance, should remain unchanged
+            Assert.Equal(-500.00, acct.Balance, 2);
+        }
+
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Savings_Calculate_Interest_Zero_Interest_Rate()
+        {
+            var acct = new SavingsAccount();
+            acct.AccountType = AccountTypes.InstantAccess;
+            acct.InterestDate = DateTime.Now.AddMonths(-12);
+            acct.Balance = 1000.00;
+            acct.InterestRate = 0.0; // 0% interest
+            acct.CalculateInterest();
+            // Zero interest rate, balance should remain unchanged
+            Assert.Equal(1000.00, acct.Balance, 2);
+        }
+
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Savings_Calculate_Interest_Multiple_Years()
+        {
+            var acct = new SavingsAccount();
+            acct.AccountType = AccountTypes.InstantAccess;
+            acct.InterestDate = DateTime.Now.AddYears(-3); // 1.5 months ago
+            acct.Balance = 1000.00;
+            acct.InterestRate = 1.2;
+            acct.CalculateInterest();
+            Assert.Equal(1036.43, acct.Balance, 2);
+        }
+
 
         //Instant Savings Account Tests
 
