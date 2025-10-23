@@ -250,6 +250,62 @@ namespace BankingApplicationTests
             Assert.Equal(1036.43, acct.Balance, 2);
         }
 
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Savings_Interest_1_Year_Change_InterestDate()
+        {
+            var acct = new SavingsAccount();
+            acct.AccountType = AccountTypes.InstantAccess;
+            acct.InterestDate = DateTime.Now.AddYears(-1);
+            acct.Balance = 1000.00;
+            acct.InterestRate = 1.2;
+            var expectedDate = acct.InterestDate.AddYears(1);
+            acct.CalculateInterest();
+            Assert.Equal(expectedDate.Date, acct.InterestDate.Date);
+        }
+
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Savings_Interest_No_Change_InterestDate()
+        {
+            var acct = new SavingsAccount();
+            acct.AccountType = AccountTypes.InstantAccess;
+            acct.InterestDate = DateTime.Now;
+            acct.Balance = 1000.00;
+            acct.InterestRate = 1.2;
+            var expectedDate = acct.InterestDate;
+            acct.CalculateInterest();
+            Assert.Equal(expectedDate.Date, acct.InterestDate.Date);
+        }
+
+
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Savings_Interest_Multiple_Years_Change_InterestDate()
+        {
+            var acct = new SavingsAccount();
+            acct.AccountType = AccountTypes.InstantAccess;
+            acct.InterestDate = DateTime.Now.AddYears(-3);
+            acct.Balance = 1000.00;
+            acct.InterestRate = 1.2;
+            var expectedDate = acct.InterestDate.AddYears(3);
+            acct.CalculateInterest();
+            Assert.Equal(expectedDate.Date, acct.InterestDate.Date);
+        }
+
+        [Trait("Category", "SavingsAccount")]
+        [Fact]
+        public void Savings_Interest_Multiple_Years_Partial_Change_InterestDate()
+        {
+            var acct = new SavingsAccount();
+            acct.AccountType = AccountTypes.InstantAccess;
+            acct.InterestDate = DateTime.Now.AddYears(-2).AddMonths(-6); // 2.5 years ago
+            acct.Balance = 1000.00;
+            acct.InterestRate = 1.2;
+            var expectedDate = acct.InterestDate.AddYears(2); // only full years added
+            acct.CalculateInterest();
+            Assert.Equal(expectedDate.Date, acct.InterestDate.Date);
+        }
 
         //Instant Savings Account Tests
 
