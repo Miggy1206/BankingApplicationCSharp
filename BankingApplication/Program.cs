@@ -86,14 +86,17 @@ namespace BankingApplication
                 Password = "SecurePassword123!"
                 };
 
-            dbContext.Users.Add(user);
+            //dbContext.Users.Add(user);
 
             //dbContext.Accounts.Add(currentAccount);
             //dbContext.Accounts.Add(savingsAccount);
             //dbContext.Accounts.Add(creditAccount);
             //dbContext.Accounts.Add(mortgageAccount);
 
-            dbContext.SaveChanges();
+           // dbContext.SaveChanges();
+
+            AuthService authService = new AuthService(dbContext);
+            authService.Login("miguelsbarbosa123@gmail.com", "SecurePassword123!");
 
             var allAccounts = dbContext.Accounts.ToList();
 
